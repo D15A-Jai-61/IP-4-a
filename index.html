@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Person Object Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .output {
+            background-color: #e9e9e9;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        .person-details {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .person-details div {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enhanced Person Object Demo</h1>
+        <div class="person-details">
+            <h2>Person Details</h2>
+            <div id="person-name"></div>
+            <div id="person-age"></div>
+            <div id="person-gender"></div>
+            <div id="person-height"></div>
+            <div id="person-weight"></div>
+            <div id="person-occupation"></div>
+            <div id="person-hobbies"></div>
+            <div id="person-education"></div>
+        </div>
+        <div id="output" class="output"></div>
+    </div>
+
+    <script>
+        // Class declaration method
+        class Person {
+            constructor(name, age, gender, height, weight, occupation, hobbies, education) {
+                this.name = name;
+                this.age = age;
+                this.gender = gender;
+                this.height = height;
+                this.weight = weight;
+                this.occupation = occupation;
+                this.hobbies = hobbies;
+                this.education = education;
+            }
+
+            // Regular method
+            introduce() {
+                console.log(`Hi, I'm ${this.name}, ${this.age} years old, and I work as a ${this.occupation}.`);
+            }
+
+            // Arrow function as a method
+            getDetails = () => {
+                return `Name: ${this.name}, Age: ${this.age}, Gender: ${this.gender}, Height: ${this.height} cm, Weight: ${this.weight} kg, Occupation: ${this.occupation}, Hobbies: ${this.hobbies.join(", ")}, Education: ${this.education}`;
+            }
+
+            // New method to display hobbies
+            displayHobbies() {
+                console.log(`${this.name}'s hobbies are: ${this.hobbies.join(", ")}.`);
+            }
+
+            // New method to display education
+            displayEducation() {
+                console.log(`${this.name}'s education: ${this.education}`);
+            }
+        }
+
+        // Function constructor method
+        function Employee(name, position, department) {
+            this.name = name;
+            this.position = position;
+            this.department = department;
+
+            this.describe = function() {
+                console.log(`${this.name} works as a ${this.position} in the ${this.department} department.`);
+            }
+        }
+
+        // Object literal method
+        const student = {
+            name: "Alice",
+            grade: 10,
+            subjects: ["Math", "Science", "History"],
+            study: function() {
+                console.log(`${this.name} is studying ${this.subjects.join(", ")}.`);
+            }
+        };
+
+        // Update the person1 instance with more details
+        const person1 = new Person(
+            "John Doe",
+            30,
+            "Male",
+            180,
+            75,
+            "Software Developer",
+            ["reading", "hiking", "photography"],
+            "Bachelor's in Computer Science"
+        );
+
+        const employee1 = new Employee("Jane Smith", "Manager", "Marketing");
+
+        // Arrow function as a non-member function
+        const calculateAge = (birthYear) => {
+            const currentYear = new Date().getFullYear();
+            return currentYear - birthYear;
+        };
+
+        // Wait for the DOM to be fully loaded before executing the script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to add content to the output div
+            function addToOutput(content) {
+                const outputDiv = document.getElementById('output');
+                outputDiv.innerHTML += content + '<br><br>';
+            }
+
+            // Modify the console.log function to also write to the webpage
+            const originalConsoleLog = console.log;
+            console.log = function() {
+                originalConsoleLog.apply(console, arguments);
+                addToOutput(Array.from(arguments).join(' '));
+            };
+
+            // Display person details in the dedicated section
+            document.getElementById('person-name').textContent = `Name: ${person1.name}`;
+            document.getElementById('person-age').textContent = `Age: ${person1.age}`;
+            document.getElementById('person-gender').textContent = `Gender: ${person1.gender}`;
+            document.getElementById('person-height').textContent = `Height: ${person1.height} cm`;
+            document.getElementById('person-weight').textContent = `Weight: ${person1.weight} kg`;
+            document.getElementById('person-occupation').textContent = `Occupation: ${person1.occupation}`;
+            document.getElementById('person-hobbies').textContent = `Hobbies: ${person1.hobbies.join(", ")}`;
+            document.getElementById('person-education').textContent = `Education: ${person1.education}`;
+
+            // Run the demonstrations
+            person1.introduce();
+            addToOutput(person1.getDetails());
+            person1.displayHobbies();
+            person1.displayEducation();
+
+            employee1.describe();
+            student.study();
+            addToOutput(`Age calculated using arrow function: ${calculateAge(1990)}`);
+        });
+    </script>
+</body>
+</html>
